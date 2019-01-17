@@ -10,6 +10,7 @@ public class GameCanvas extends JPanel {
     GameCanvas(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         lastFrameTime = System.nanoTime();
+
     }
 
     @Override

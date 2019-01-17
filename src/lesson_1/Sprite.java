@@ -21,5 +21,6 @@ public class Sprite {
     float getHeight(){ return 2f * halfHeight; }
 
     void render(GameCanvas gameCanvas, Graphics g) {}
+    void render(GameCanvas gameCanvas, Graphics g, float deltaTime) {}
     void update(GameCanvas gameCanvas, float deltaTime) {}
 }

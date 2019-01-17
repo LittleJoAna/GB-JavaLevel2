@@ -10,6 +10,7 @@ public class MainWindow extends JFrame {
     private static final int WINDOW_HEIGHT = 600;
 
     Sprite[] sprites = new Sprite[10];
+    Background bg = new Background();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -40,7 +41,7 @@ public class MainWindow extends JFrame {
 
     void onDrawFrame(GameCanvas gameCanvas, Graphics g, float deltaTime) {
         update(gameCanvas, deltaTime);
-        render(gameCanvas, g);
+        render(gameCanvas, g, deltaTime);
     }
 
     private void update(GameCanvas gameCanvas, float deltaTime) {
@@ -49,7 +50,8 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private void render(GameCanvas gameCanvas, Graphics g) {
+    private void render(GameCanvas gameCanvas, Graphics g, float deltaTime) {
+        bg.render(gameCanvas, g, deltaTime);
         for (int i = 0; i < sprites.length; i++) {
             sprites[i].render(gameCanvas, g);
         }

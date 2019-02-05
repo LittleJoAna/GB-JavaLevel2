@@ -1,11 +1,17 @@
 package lesson_4.client;
 
-import lesson_4.server.gui.ServerGUI;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
+/*
+Отправлять сообщения в лог по нажатию кнопки или по нажатию клавиши Enter.
+Создать лог в файле (записи должны делаться при отправке сообщений).
+ */
 
 public class ClientGUI extends JFrame implements ActionListener, Thread.UncaughtExceptionHandler {
 
@@ -66,12 +72,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ClientGUI();
-            }
-        });
+        SwingUtilities.invokeLater(() -> new ClientGUI());
     }
 
     @Override
@@ -95,10 +96,27 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         Object src = e.getSource();
         if (src == cbAlwaysOnTop) {
             setAlwaysOnTop(cbAlwaysOnTop.isSelected());
-        } else if (src == btnSend) {
-            //тут будет код
+        } else if (src == btnSend || src == tfMessage) {
+            tfMessage.requestFocus();
+            String message = tfMessage.getText();
+            if (message.length() != 0) {
+                log.append(message + "\n");
+                writeMessageInLog(message);
+                tfMessage.setText("");
+            } else {
+                return;
+            }
         } else {
             throw new RuntimeException("Неизвестный исходник: " + src);
+        }
+    }
+
+    private void writeMessageInLog (String message) {
+        try (PrintStream printStream = new PrintStream(new FileOutputStream("logChat.txt", true))){
+            printStream.print(message + "\n");
+            printStream.flush();
+        } catch (FileNotFoundException e) {
+            System.out.println("Запись в лог не удалась! Лог не найден!");
         }
     }
 }

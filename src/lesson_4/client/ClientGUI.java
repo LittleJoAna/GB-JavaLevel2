@@ -52,6 +52,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
 
         cbAlwaysOnTop.addActionListener(this);
         btnSend.addActionListener(this);
+        tfMessage.addActionListener(this);
 
         log.setEnabled(false);
         JScrollPane scrollLog = new JScrollPane(log);

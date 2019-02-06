@@ -28,13 +28,8 @@ public class ServerGUI extends JFrame implements ActionListener, Thread.Uncaught
         setLayout(new GridLayout(1, 2));
         add(btnStart);
         add(btnStop);
-
-
         setVisible(true);
     }
-
-
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -44,7 +39,6 @@ public class ServerGUI extends JFrame implements ActionListener, Thread.Uncaught
             }
         });
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {

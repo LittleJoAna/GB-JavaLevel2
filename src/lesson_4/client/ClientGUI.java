@@ -99,7 +99,7 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
             setAlwaysOnTop(cbAlwaysOnTop.isSelected());
         } else if (src == btnSend || src == tfMessage) {
             tfMessage.requestFocus();
-            String message = tfMessage.getText();
+            String message = tfLogin.getText() + ": " + tfMessage.getText();
             if (message.length() != 0) {
                 log.append(message + "\n");
                 writeMessageInLog(message);

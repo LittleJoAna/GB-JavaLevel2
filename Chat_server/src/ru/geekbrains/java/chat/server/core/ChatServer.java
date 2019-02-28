@@ -1,6 +1,6 @@
-package lesson_4.server.core;
+package ru.geekbrains.java.chat.server.core;
 
-import lesson_4.network.ServerSocketThread;
+import ru.geekbrains.java.network.ServerSocketThread;
 
 public class ChatServer {
 

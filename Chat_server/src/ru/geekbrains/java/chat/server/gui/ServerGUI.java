@@ -1,21 +1,25 @@
 package ru.geekbrains.java.chat.server.gui;
 
 import ru.geekbrains.java.chat.server.core.ChatServer;
+import ru.geekbrains.java.chat.server.core.ChatServerListener;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ServerGUI extends JFrame implements ActionListener, Thread.UncaughtExceptionHandler {
+public class ServerGUI extends JFrame implements ActionListener, Thread.UncaughtExceptionHandler, ChatServerListener {
 
-    private static final int POS_X = 1000;
-    private static final int POS_Y = 600;
-    private static final int WIDTH = 200;
-    private static final int HEIGHT = 100;
+    private static final int POS_X = 800;
+    private static final int POS_Y = 400;
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 300;
 
-    private final ChatServer chatServer = new ChatServer();
+    private final JPanel panelTop = new JPanel(new GridLayout(1, 2));
+    private final ChatServer chatServer = new ChatServer(this);
     private final JButton btnStart = new JButton("Start");
     private final JButton btnStop = new JButton("Stop");
+    private final JTextArea log = new JTextArea();
 
     private ServerGUI() {
         Thread.setDefaultUncaughtExceptionHandler(this);
@@ -26,9 +30,14 @@ public class ServerGUI extends JFrame implements ActionListener, Thread.Uncaught
         setResizable(false);
         setTitle("Chat Server");
         setAlwaysOnTop(true);
-        setLayout(new GridLayout(1, 2));
-        add(btnStart);
-        add(btnStop);
+
+        log.setEditable(false);
+        log.setLineWrap(true);
+        JScrollPane scrollLog = new JScrollPane(log);
+        panelTop.add(btnStart);
+        panelTop.add(btnStop);
+        add(panelTop, BorderLayout.NORTH);
+        add(scrollLog, BorderLayout.CENTER);
         setVisible(true);
     }
 
@@ -67,5 +76,15 @@ public class ServerGUI extends JFrame implements ActionListener, Thread.Uncaught
 
         JOptionPane.showMessageDialog(this, msg, "Exception!", JOptionPane.ERROR_MESSAGE);
         System.exit(1);
+    }
+    @Override
+    public void onChatServerLog(ChatServer server, String msg) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                log.append(msg + "\n");
+                log.setCaretPosition(log.getDocument().getLength());
+            }
+        });
     }
 }
